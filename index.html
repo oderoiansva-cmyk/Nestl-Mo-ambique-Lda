@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>SVA · Executive Intelligence Experience</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0b1727;
+      --card: rgba(15, 29, 48, 0.72);
+      --card-strong: rgba(18, 35, 57, 0.9);
+      --border: rgba(148, 163, 184, 0.13);
+      --text: #f3f7fb;
+      --muted: #94a6ba;
+      --soft: #c4d0dc;
+      --accent: #61d4c3;
+      --accent-soft: rgba(97, 212, 195, 0.10);
+      --accent-border: rgba(97, 212, 195, 0.25);
+      --danger: #ef8f8f;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(
+          circle at 78% 12%,
+          rgba(42, 94, 117, 0.16),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 12% 82%,
+          rgba(26, 79, 94, 0.10),
+          transparent 30%
+        ),
+        var(--bg);
+      color: var(--text);
+      font-family: "Inter", sans-serif;
+      min-height: 100vh;
+    }
+
+    .glass {
+      background: var(--card);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.025);
+    }
+
+    .glass-strong {
+      background: var(--card-strong);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .soft {
+      color: var(--soft);
+    }
+
+    .accent {
+      color: var(--accent);
+    }
+
+    .divider {
+      border-color: var(--border);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: reveal 0.65s ease forwards;
+    }
+
+    .delay-1 {
+      animation-delay: 0.08s;
+    }
+
+    .delay-2 {
+      animation-delay: 0.16s;
+    }
+
+    .delay-3 {
+      animation-delay: 0.24s;
+    }
+
+    .delay-4 {
+      animation-delay: 0.32s;
+    }
+
+    @keyframes reveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .metric-value {
+      letter-spacing: -0.04em;
+    }
+
+    .signal-line {
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .signal-line::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.6em;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(97, 212, 195, 0.35);
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--accent-border);
+      background: var(--accent-soft);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .cta-button:hover {
+      background: rgba(97, 212, 195, 0.16);
+      border-color: rgba(97, 212, 195, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .access-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(
+          circle at 50% 30%,
+          rgba(42, 94, 117, 0.18),
+          transparent 35%
+        ),
+        rgba(3, 9, 17, 0.97);
+      padding: 24px;
+    }
+
+    .access-box {
+      width: 100%;
+      max-width: 430px;
+      padding: 34px;
+      border-radius: 18px;
+    }
+
+    .access-input {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.035);
+      color: white;
+      outline: none;
+    }
+
+    .access-input:focus {
+      border-color: var(--accent-border);
+      box-shadow: 0 0 0 3px rgba(97, 212, 195, 0.05);
+    }
+
+    .access-button {
+      width: 100%;
+      padding: 13px;
+      border-radius: 9px;
+      border: 1px solid var(--accent-border);
+      background: rgba(97, 212, 195, 0.12);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .access-error {
+      color: var(--danger);
+      font-size: 11px;
+      min-height: 16px;
+      margin-top: 8px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    canvas {
+      max-height: 270px;
+    }
+
+    @media (max-width: 1024px) {
+      .desktop-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .sticky-rail {
+        position: relative !important;
+        top: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================================================
+       ACCESS LAYER
+       ========================================================= -->
+
+  <div id="accessOverlay" class="access-overlay">
+
+    <div class="access-box glass reveal">
+
+      <div class="eyebrow mb-4">
+        Strategic Value Architect
+      </div>
+
+      <h1 class="text-2xl font-semibold tracking-tight mb-3">
+        Executive Intelligence
+      </h1>
+
+      <p class="muted text-sm leading-6 mb-7">
+        This intelligence experience has been prepared specifically
+        for the intended recipient.
+      </p>
+
+      <input
+        id="accessKey"
+        type="password"
+        class="access-input"
+        placeholder="Enter access key"
+        autocomplete="off"
+      />
+
+      <div id="accessError" class="access-error"></div>
+
+      <button
+        id="accessButton"
+        class="access-button mt-2"
+        onclick="unlockExperience()"
+      >
+        Access briefing
+      </button>
+
+      <div class="mt-6 pt-5 border-t divider">
+        <p class="text-[10px] muted leading-5">
+          Confidential · Prepared by SVA
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       EXPERIENCE
+       ========================================================= -->
+
+  <main id="experience" class="hidden">
+
+    <!-- HEADER -->
+    <header class="max-w-[1440px] mx-auto px-6 lg:px-10 pt-8">
+
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+
+        <div>
+          <div class="eyebrow mb-2">
+            SVA · Executive Intelligence Experience
+          </div>
+
+          <div class="text-xs muted" id="metaLine"></div>
+        </div>
+
+        <div class="text-xs muted">
+          Confidential · Account-specific intelligence
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- MAIN GRID -->
+    <section
+      class="max-w-[1440px] mx-auto px-6 lg:px-10 py-10 desktop-grid"
+      style="
+        display:grid;
+        grid-template-columns:minmax(0, 7fr) minmax(280px, 3fr);
+        gap:32px;
+      "
+    >
+
+      <!-- =====================================================
+           PRIMARY NARRATIVE
+           ===================================================== -->
+
+      <div>
+
+        <!-- THESIS -->
+        <section id="thesisSection" class="reveal"></section>
+
+        <!-- HERO METRICS -->
+        <section
+          id="heroMetrics"
+          class="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-7 reveal delay-1"
+        ></section>
+
+        <!-- NARRATIVE -->
+        <section
+          id="narrative"
+          class="mt-8 space-y-5"
+        ></section>
+
+        <!-- FINAL BRIDGE -->
+        <section
+          id="briefingSection"
+          class="mt-10 reveal"
+        ></section>
+
+      </div>
+
+
+      <!-- =====================================================
+           RIGHT RAIL
+           ===================================================== -->
+
+      <aside class="sticky-rail" style="position:sticky;top:24px;height:max-content;">
+
+        <div
+          id="rail"
+          class="space-y-4 reveal delay-2"
+        ></div>
+
+      </aside>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="max-w-[1440px] mx-auto px-6 lg:px-10 pb-10 pt-5">
+
+      <div
+        class="pt-6 border-t divider flex flex-col md:flex-row md:items-center md:justify-between gap-3"
+      >
+
+        <div class="text-[10px] muted">
+          Strategic Value Architect · SVA
+        </div>
+
+        <div class="text-[10px] muted">
+          Confidential intelligence · Prepared specifically for this account
+        </div>
+
+      </div>
+
+    </footer>
+
+  </main>
+
+
+  <script>
+
+    /* =========================================================
+       SVA CASE
+       ---------------------------------------------------------
+       THIS IS THE PRIMARY INPUT.
+
+       The Adaptive SIS determines the architecture.
+       The renderer determines how that architecture is displayed.
+       ========================================================= */
+
+    const SVA_CASE = {
+
+      company: "Nestlé Moçambique, Lda",
+
+      recipient: "Office of the Managing Director",
+
+      date: "27 October 2026",
+
+      presentationId: "SVA-NML-2610",
+
+      /*
+       * Client-side access key.
+       *
+       * NOTE:
+       * This is presentation-level gating only.
+       * It is NOT server-side security.
+       */
+      accessKey: "SVA-NESTLE-MZ-2026",
+
+      briefingUrl: "#",
+
+
+      /* =======================================================
+         THESIS
+         ======================================================= */
+
+      thesis: {
+
+        eyebrow: "Strategic signal · Effective 27 October 2026",
+
+        title: "The inflation clock is running faster than the trust clock.",
+
+        statement:
+          "Nestlé Moçambique is entering Q4 2026 with two clocks moving at different speeds. One is macroeconomic and accelerating. The other is reputational and already behind schedule.",
+
+        subtext:
+          "The gap between them is where the strategic problem lives — and it sits on the same consumer segment, at the same moment, in the same brand category."
+
+      },
+
+
+      /* =======================================================
+         HERO METRICS
+         -------------------------------------------------------
+         Add / remove metrics depending on the SIS architecture.
+         ======================================================= */
+
+      heroMetrics: [
+
+        {
+          label: "Inflation · Dec 2026",
+          value: "8.52%",
+          note: "Banco de Moçambique projection",
+          tone: "accent"
+        },
+
+        {
+          label: "Informal retail",
+          value: "~85%",
+          note: "Share of total retail channel",
+          tone: "neutral"
+        },
+
+        {
+          label: "Rural population",
+          value: "61%",
+          note: "Beyond modern supply chain",
+          tone: "neutral"
+        },
+
+        {
+          label: "Added-sugar incidence",
+          value: ">90%",
+          note: "Cerelac samples, 20 African markets",
+          tone: "neutral"
+        }
+
+      ],
+
+
+      /* =======================================================
+         ADAPTIVE NARRATIVE
+         -------------------------------------------------------
+         Supported block types:
+
+         argument
+         chart
+         tension
+         signal
+         metric
+         comparison
+         timeline
+         opportunity
+         question
+         evidence
+
+         The SIS chooses which blocks exist and in what order.
+         ======================================================= */
+
+      narrative: [
+
+        {
+          type: "argument",
+
+          eyebrow: "01 · The clock that is accelerating",
+
+          title: "This is not a revenue clock. It is a margin clock.",
+
+          body:
+            "Banco de Moçambique projects annual inflation will reach 8.52% by December 2026, driven by international commodity prices and the dissipation of favourable seasonal effects. For a packaged-food manufacturer dependent on imported raw materials and finished goods, every percentage point is a direct extraction from gross margin unless it is passed through to consumers. And in a market where roughly 85% of retail is informal and 61% of the population is rural, the consumers Nestlé most needs to reach are the least able to absorb a price increase."
+        },
+
+
+        {
+          type: "argument",
+
+          eyebrow: "02 · The clock that is already behind",
+
+          title: "The reformulation deadline has passed without a visible local answer.",
+
+          body:
+            "Public Eye's investigation found that more than 90% of Cerelac products sampled across 20 African countries contained added sugar, in high quantities, while the same brand is sold with zero added sugar in Switzerland, Germany and the UK. Cerelac holds over 50% market share in African baby cereals, with annual sales exceeding USD 250 million. Twenty civil society organisations across Africa — including Mozambique — have signed an open letter demanding Nestlé immediately cease adding sugar to baby foods. Nestlé committed to rolling out no-added-sugar Cerelac variants across Africa by the end of 2025. That deadline has passed."
+        },
+
+
+        {
+          type: "tension",
+
+          eyebrow: "Strategic tension",
+
+          title: "The two clocks pull in opposite directions — and one is making the other more expensive to fix.",
+
+          body:
+            "The inflation clock demands cost extraction, margin protection and price discipline. The trust clock demands investment, reformulation, transparency and visible accountability. The organisational instinct will be to sequence them: fix margin first, fix trust later. But as the metical weakens and imported inputs become costlier, the trust deficit compounds faster than the margin deficit. A margin recovery built on price increases that push sachets above the cash-envelope threshold accelerates the volume loss that no amount of later reformulation can recover, because the consumer will already have re-anchored on an alternative."
+        },
+
+
+        {
+          type: "signal",
+
+          eyebrow: "SVA signal",
+
+          items: [
+
+            "The two clocks are compressing on the same consumer segment, in the same category, at the same moment.",
+
+            "The consumers most exposed to inflation are also the consumers most dependent on the category where trust is most fragile.",
+
+            "Sequencing margin recovery ahead of trust reconstruction is the mechanism by which a temporary margin dip becomes a permanent volume loss."
+
+          ]
+        },
+
+
+        {
+          type: "chart",
+
+          eyebrow: "The accelerating clock",
+
+          title: "Inflation path into year-end 2026",
+
+          description:
+            "The published anchors of the Q4 2026 inflation path. The direction of travel is what matters: imported-input costs rise in metical terms precisely as household cash envelopes contract.",
+
+          chart: {
+
+            type: "line",
+
+            labels: [
+              "Aug 2026",
+              "Dec 2026 (projection)"
+            ],
+
+            datasets: [
+
+              {
+                label: "Headline inflation (%)",
+                data: [
+                  7.95,
+                  8.52
+                ]
+              }
+
+            ]
+
+          }
+
+        },
+
+
+        {
+          type: "comparison",
+
+          eyebrow: "The decision in front of the organisation",
+
+          title: "The sequencing instinct and the evidence-weighted view are not the same thing.",
+
+          left: {
+
+            label: "Sequencing instinct",
+
+            items: [
+              "Fix margin first — reformulation spend can wait",
+              "Protect sachet price by passing through inflation",
+              "Treat transparency as a communications cost",
+              "Defer channel investment until FX stabilises"
+            ]
+
+          },
+
+          right: {
+
+            label: "Evidence-weighted view",
+
+            items: [
+              "Trust deficit compounds faster than margin deficit",
+              "Reformulation is retention infrastructure, not a cost line",
+              "Transparency is the proof that justifies the price stretch",
+              "Channel density is the hedge against modern-trade volatility"
+            ]
+
+          }
+
+        },
+
+
+        {
+          type: "timeline",
+
+          eyebrow: "Why 27 October 2026 matters",
+
+          title: "The window is defined by dates that have already moved.",
+
+          items: [
+
+            {
+              period: "End-2025",
+              title: "No-added-sugar Cerelac pledge deadline",
+              body: "Nestlé's stated commitment to roll out no-added-sugar variants across Africa. The deadline has passed without a visible Mozambique-specific position."
+            },
+
+            {
+              period: "Aug 2026",
+              title: "Inflation recorded at 7.95%",
+              body: "The last published anchor before the year-end acceleration."
+            },
+
+            {
+              period: "27 Oct 2026",
+              title: "Effective date of this assessment",
+              body: "Q4 opens with both clocks live and neither resolved."
+            },
+
+            {
+              period: "Dec 2026",
+              title: "Inflation projected at 8.52%",
+              body: "The pressure point at which sachet price stability and input-cost recovery collide."
+            }
+
+          ]
+
+        },
+
+
+        {
+          type: "question",
+
+          eyebrow: "Executive question",
+
+          title:
+            "If metical-driven price pressure forces a choice between protecting sachet margin and funding reformulation, which clock does Nestlé Moçambique actually intend to let run out?",
+
+          body:
+            "The answer cannot be both. The organisation has finite management attention and finite Q4 budget. The evidence suggests the trust clock is the binding constraint on the inflation clock."
+        },
+
+
+        {
+          type: "evidence",
+
+          eyebrow: "Evidence base",
+
+          title: "The reformulation gap is documented, comparative and continental.",
+
+          body:
+            "The Cerelac added-sugar finding is not a single-market allegation. It is a comparative disclosure: the same brand, sold at different sugar levels in different markets, with the higher-sugar formulation concentrated in the markets least able to scrutinise it. That comparison — not the sugar itself — is what makes the trust clock run faster than the inflation clock.",
+
+          source:
+            "Public Eye investigation into Nestlé infant cereal formulations across African and European markets; civil society open letter signed by organisations across 20 African countries, including Mozambique."
+
+        }
+
+      ],
+
+
+      /* =======================================================
+         RIGHT RAIL
+         ======================================================= */
+
+      rail: {
+
+        value: {
+
+          label: "Core signal",
+
+          value: "Affordability–Accountability Compression",
+
+          note:
+            "Margin pressure and reputational liability are not parallel risks. They are compressing on the same segment at the same time."
+
+        },
+
+        decision: {
+
+          label: "Decision lens",
+
+          value: "Clock alignment",
+
+          note:
+            "Separate the clock the organisation is measured on from the clock the market is actually running."
+
+        },
+
+        metric: {
+
+          label: "Inflation · Dec 2026",
+
+          value: "8.52%",
+
+          note:
+            "Banco de Moçambique projection — the pressure point at which sachet affordability and input-cost recovery collide."
+
+        },
+
+        miniChart: {
+
+          enabled: true,
+
+          labels: [
+            "Aug 2026",
+            "Dec 2026"
+          ],
+
+          data: [
+            7.95,
+            8.52
+          ]
+
+        }
+
+      },
+
+
+      /* =======================================================
+         UNRESOLVED QUESTION
+         ======================================================= */
+
+      unresolvedQuestion: {
+
+        eyebrow: "What remains unresolved",
+
+        title:
+          "The compression is visible. The mechanism inside the channel is not.",
+
+        body:
+          "The Strategic Briefing maps the channel-level economics of the informal sachet trade, the reformulation timeline implied by the 2025 pledge, and the contingency architecture for a Q4 in which both clocks cannot be satisfied on their original schedules."
+
+      },
+
+
+      /* =======================================================
+         BRIEFING / CTA
+         ======================================================= */
+
+      briefing: {
+
+        eyebrow: "Strategic Briefing",
+
+        title:
+          "The full SVA assessment goes further.",
+
+        body:
+          "The private Strategic Briefing expands the account-specific evidence, the channel-level economics behind the affordability constraint, the reformulation sequencing question, and the strategic implications of letting either clock run out.",
+
+        /*
+         * Primary CTA
+         */
+        ctaLabel:
+          "View your Strategic Briefing",
+
+        ctaUrl:
+          "#",
+
+        /*
+         * Original SVA conversation CTA restored.
+         */
+        conversationLabel:
+          "Request a 20-minute conversation",
+
+        conversationEmail:
+          "oderoian.sva@gmail.com"
+
+      }
+
+    };
+
+
+    /* =========================================================
+       UTILITY
+       ========================================================= */
+
+    function escapeHTML(value) {
+
+      if (value === undefined || value === null) {
+        return "";
+      }
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =========================================================
+       THESIS
+       ========================================================= */
+
+    function renderThesis() {
+
+      const t = SVA_CASE.thesis;
+
+      document.getElementById("thesisSection").innerHTML = `
+
+        <div class="max-w-4xl">
+
+          <div class="eyebrow mb-4">
+            ${escapeHTML(t.eyebrow)}
+          </div>
+
+          <h1
+            class="text-4xl md:text-5xl lg:text-[58px]
+                   leading-[1.02] tracking-[-0.045em]
+                   font-semibold"
+          >
+            ${escapeHTML(t.title)}
+          </h1>
+
+          <p
+            class="mt-6 text-lg md:text-xl
+                   leading-8 soft max-w-3xl"
+          >
+            ${escapeHTML(t.statement)}
+          </p>
+
+          <p
+            class="mt-4 text-sm leading-7 muted max-w-2xl"
+          >
+            ${escapeHTML(t.subtext)}
+          </p>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       HERO METRICS
+       ========================================================= */
+
+    function renderHeroMetrics() {
+
+      const container = document.getElementById("heroMetrics");
+
+      container.innerHTML = "";
+
+      SVA_CASE.heroMetrics.forEach(metric => {
+
+        const tone =
+          metric.tone === "accent"
+            ? "accent"
+            : "text-white";
+
+        container.innerHTML += `
+
+          <div class="glass rounded-xl p-5">
+
+            <div class="text-[10px] uppercase tracking-[0.14em] muted">
+              ${escapeHTML(metric.label)}
+            </div>
+
+            <div
+              class="metric-value text-2xl md:text-3xl
+                     font-semibold mt-3 ${tone}"
+            >
+              ${escapeHTML(metric.value)}
+            </div>
+
+            <div class="text-[11px] muted mt-2">
+              ${escapeHTML(metric.note)}
+            </div>
+
+          </div>
+
+        `;
+
+      });
+
+    }
+
+
+    /* =========================================================
+       NARRATIVE BLOCK ROUTER
+       ========================================================= */
+
+    function renderBlock(block, index) {
+
+      switch (block.type) {
+
+        case "argument":
+          return renderArgument(block, index);
+
+        case "tension":
+          return renderTension(block, index);
+
+        case "signal":
+          return renderSignal(block, index);
+
+        case "chart":
+          return renderChartBlock(block, index);
+
+        case "metric":
+          return renderMetricBlock(block, index);
+
+        case "comparison":
+          return renderComparison(block, index);
+
+        case "timeline":
+          return renderTimeline(block, index);
+
+        case "opportunity":
+          return renderOpportunity(block, index);
+
+        case "question":
+          return renderQuestion(block, index);
+
+        case "evidence":
+          return renderEvidence(block, index);
+
+        default:
+          return "";
+
+      }
+
+    }
+
+
+    /* =========================================================
+       ARGUMENT
+       ========================================================= */
+
+    function renderArgument(block, index) {
+
+      return `
+
+        <article class="glass rounded-2xl p-7 md:p-8 reveal">
+
+          <div class="eyebrow mb-3">
+            ${escapeHTML(block.eyebrow || `Observation ${index + 1}`)}
+          </div>
+
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight">
+            ${escapeHTML(block.title)}
+          </h2>
+
+          <p class="mt-4 text-sm md:text-[15px] leading-7 soft max-w-3xl">
+            ${escapeHTML(block.body)}
+          </p>
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       TENSION
+       ========================================================= */
+
+    function renderTension(block) {
+
+      return `
+
+        <article
+          class="rounded-2xl p-7 md:p-8"
+          style="
+            background:rgba(97,212,195,0.045);
+            border:1px solid rgba(97,212,195,0.16);
+          "
+        >
+
+          <div class="eyebrow mb-3">
+            ${escapeHTML(block.eyebrow || "Strategic tension")}
+          </div>
+
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight">
+            ${escapeHTML(block.title)}
+          </h2>
+
+          <p class="mt-4 text-sm md:text-[15px] leading-7 soft max-w-3xl">
+            ${escapeHTML(block.body)}
+          </p>
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       SIGNAL
+       ========================================================= */
+
+    function renderSignal(block) {
+
+      return `
+
+        <article class="glass rounded-2xl p-7 md:p-8">
+
+          <div class="eyebrow mb-5">
+            ${escapeHTML(block.eyebrow || "Signal")}
+          </div>
+
+          <div class="space-y-5">
+
+            ${(block.items || []).map(item => `
+
+              <div class="signal-line">
+
+                <p class="text-sm md:text-[15px] leading-7 soft">
+                  ${escapeHTML(item)}
+                </p>
+
+              </div>
+
+            `).join("")}
+
+          </div>
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       CHART
+       ========================================================= */
+
+    function renderChartBlock(block, index) {
+
+      const canvasId = `chart-${index}`;
+
+      setTimeout(() => {
+
+        const canvas = document.getElementById(canvasId);
+
+        if (!canvas) return;
+
+        new Chart(canvas, {
+
+          type: block.chart.type || "line",
+
+          data: {
+
+            labels: block.chart.labels,
+
+            datasets: block.chart.datasets.map((dataset, datasetIndex) => ({
+
+              label: dataset.label,
+
+              data: dataset.data,
+
+              borderColor:
+                datasetIndex === 0
+                  ? "#61d4c3"
+                  : "rgba(148,163,184,0.55)",
+
+              backgroundColor:
+                datasetIndex === 0
+                  ? "rgba(97,212,195,0.08)"
+                  : "rgba(148,163,184,0.04)",
+
+              borderWidth: 2,
+
+              pointRadius: 4,
+
+              pointHoverRadius: 6,
+
+              tension: 0.25,
+
+              fill: datasetIndex === 0
+
+            }))
+
+          },
+
+          options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+              legend: {
+
+                labels: {
+
+                  color: "#94a6ba",
+
+                  font: {
+                    family: "Inter",
+                    size: 10
+                  }
+
+                }
+
+              }
+
+            },
+
+            scales: {
+
+              x: {
+
+                ticks: {
+                  color: "#708298"
+                },
+
+                grid: {
+                  color: "rgba(148,163,184,0.06)"
+                }
+
+              },
+
+              y: {
+
+                ticks: {
+                  color: "#708298"
+                },
+
+                grid: {
+                  color: "rgba(148,163,184,0.06)"
+                }
+
+              }
+
+            }
+
+          }
+
+        });
+
+      }, 50);
+
+      return `
+
+        <article class="glass rounded-2xl p-7 md:p-8">
+
+          <div class="eyebrow mb-3">
+            ${escapeHTML(block.eyebrow || "Performance")}
+          </div>
+
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight">
+            ${escapeHTML(block.title)}
+          </h2>
+
+          <p class="text-sm muted leading-6 mt-3 max-w-2xl">
+            ${escapeHTML(block.description || "")}
+          </p>
+
+          <div class="mt-7 h-[270px]">
+            <canvas id="${canvasId}"></canvas>
+          </div>
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       METRIC
+       ========================================================= */
+
+    function renderMetricBlock(block) {
+
+      return `
+
+        <article class="glass rounded-2xl p-7">
+
+          <div class="eyebrow mb-4">
+            ${escapeHTML(block.eyebrow || "Metric")}
+          </div>
+
+          <div class="text-4xl font-semibold tracking-tight">
+            ${escapeHTML(block.value)}
+          </div>
+
+          <h2 class="text-lg font-semibold mt-4">
+            ${escapeHTML(block.title)}
+          </h2>
+
+          <p class="text-sm muted leading-7 mt-3 max-w-2xl">
+            ${escapeHTML(block.body)}
+          </p>
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       COMPARISON
+       ========================================================= */
+
+    function renderComparison(block) {
+
+      return `
+
+        <article class="glass rounded-2xl p-7 md:p-8">
+
+          <div class="eyebrow mb-3">
+            ${escapeHTML(block.eyebrow || "Comparison")}
+          </div>
+
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight">
+            ${escapeHTML(block.title)}
+          </h2>
+
+          <div class="grid md:grid-cols-2 gap-4 mt-7">
+
+            <div
+              class="rounded-xl p-5"
+              style="
+                background:rgba(255,255,255,0.025);
+                border:1px solid var(--border);
+              "
+            >
+
+              <div class="text-xs font-semibold mb-4">
+                ${escapeHTML(block.left.label)}
+              </div>
+
+              <div class="space-y-3">
+
+                ${block.left.items.map(item => `
+
+                  <div class="text-sm muted leading-6">
+                    ${escapeHTML(item)}
+                  </div>
+
+                `).join("")}
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="rounded-xl p-5"
+              style="
+                background:rgba(97,212,195,0.045);
+                border:1px solid rgba(97,212,195,0.16);
+              "
+            >
+
+              <div class="text-xs font-semibold mb-4">
+                ${escapeHTML(block.right.label)}
+              </div>
+
+              <div class="space-y-3">
+
+                ${block.right.items.map(item => `
+
+                  <div class="text-sm soft leading-6">
+                    ${escapeHTML(item)}
+                  </div>
+
+                `).join("")}
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       TIMELINE
+       ========================================================= */
+
+    function renderTimeline(block) {
+
+      return `
+
+        <article class="glass rounded-2xl p-7 md:p-8">
+
+          <div class="eyebrow mb-3">
+            ${escapeHTML(block.eyebrow || "Timeline")}
+          </div>
+
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight">
+            ${escapeHTML(block.title)}
+          </h2>
+
+          <div class="mt-7 space-y-5">
+
+            ${(block.items || []).map(item => `
+
+              <div class="flex gap-5">
+
+                <div
+                  class="w-[72px] shrink-0
+                         text-xs font-semibold accent"
+                >
+                  ${escapeHTML(item.period)}
+                </div>
+
+                <div>
+
+                  <div class="text-sm font-semibold">
+                    ${escapeHTML(item.title)}
+                  </div>
+
+                  <p class="text-sm muted leading-6 mt-1">
+                    ${escapeHTML(item.body)}
+                  </p>
+
+                </div>
+
+              </div>
+
+            `).join("")}
+
+          </div>
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       OPPORTUNITY
+       ========================================================= */
+
+    function renderOpportunity(block) {
+
+      return `
+
+        <article
+          class="rounded-2xl p-7 md:p-8"
+          style="
+            background:linear-gradient(
+              135deg,
+              rgba(97,212,195,0.09),
+              rgba(15,29,48,0.65)
+            );
+            border:1px solid rgba(97,212,195,0.15);
+          "
+        >
+
+          <div class="eyebrow mb-3">
+            ${escapeHTML(block.eyebrow || "Strategic opportunity")}
+          </div>
+
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight">
+            ${escapeHTML(block.title)}
+          </h2>
+
+          <p class="mt-4 text-sm md:text-[15px] leading-7 soft max-w-3xl">
+            ${escapeHTML(block.body)}
+          </p>
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       QUESTION
+       ========================================================= */
+
+    function renderQuestion(block) {
+
+      return `
+
+        <article class="glass-strong rounded-2xl p-7 md:p-8">
+
+          <div class="eyebrow mb-3">
+            ${escapeHTML(block.eyebrow || "Executive question")}
+          </div>
+
+          <h2
+            class="text-xl md:text-2xl
+                   font-semibold tracking-tight
+                   leading-8"
+          >
+            ${escapeHTML(block.title)}
+          </h2>
+
+          <p class="mt-4 text-sm leading-7 muted max-w-3xl">
+            ${escapeHTML(block.body)}
+          </p>
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       EVIDENCE
+       ========================================================= */
+
+    function renderEvidence(block) {
+
+      return `
+
+        <article class="glass rounded-2xl p-7">
+
+          <div class="eyebrow mb-3">
+            ${escapeHTML(block.eyebrow || "Evidence")}
+          </div>
+
+          <h2 class="text-xl font-semibold">
+            ${escapeHTML(block.title)}
+          </h2>
+
+          <p class="text-sm muted leading-7 mt-4">
+            ${escapeHTML(block.body)}
+          </p>
+
+          ${
+            block.source
+              ? `
+                <div class="mt-5 pt-4 border-t divider">
+                  <div class="text-[10px] uppercase tracking-[0.12em] muted">
+                    Source
+                  </div>
+
+                  <div class="text-xs soft mt-2">
+                    ${escapeHTML(block.source)}
+                  </div>
+                </div>
+              `
+              : ""
+          }
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       RIGHT RAIL
+       ========================================================= */
+
+    function renderRail() {
+
+      const r = SVA_CASE.rail;
+
+      document.getElementById("rail").innerHTML = `
+
+        <!-- CORE VALUE -->
+
+        <div class="glass rounded-2xl p-6">
+
+          <div class="eyebrow mb-3">
+            ${escapeHTML(r.value.label)}
+          </div>
+
+          <div class="text-lg font-semibold tracking-tight leading-6">
+            ${escapeHTML(r.value.value)}
+          </div>
+
+          <p class="text-xs muted leading-6 mt-3">
+            ${escapeHTML(r.value.note)}
+          </p>
+
+        </div>
+
+
+        <!-- DECISION LENS -->
+
+        <div class="glass rounded-2xl p-6">
+
+          <div class="eyebrow mb-3">
+            ${escapeHTML(r.decision.label)}
+          </div>
+
+          <div class="text-lg font-semibold">
+            ${escapeHTML(r.decision.value)}
+          </div>
+
+          <p class="text-xs muted leading-6 mt-3">
+            ${escapeHTML(r.decision.note)}
+          </p>
+
+        </div>
+
+
+        <!-- METRIC -->
+
+        <div class="glass rounded-2xl p-6">
+
+          <div class="eyebrow mb-3">
+            ${escapeHTML(r.metric.label)}
+          </div>
+
+          <div class="text-3xl font-semibold metric-value accent">
+            ${escapeHTML(r.metric.value)}
+          </div>
+
+          <p class="text-xs muted leading-6 mt-3">
+            ${escapeHTML(r.metric.note)}
+          </p>
+
+        </div>
+
+
+        ${
+          r.miniChart && r.miniChart.enabled
+            ? `
+              <div class="glass rounded-2xl p-6">
+
+                <div class="eyebrow mb-4">
+                  Trajectory
+                </div>
+
+                <div class="h-[150px]">
+                  <canvas id="miniChart"></canvas>
+                </div>
+
+              </div>
+            `
+            : ""
+        }
+
+
+        <!-- UNRESOLVED QUESTION -->
+
+        <div
+          class="rounded-2xl p-6"
+          style="
+            background:rgba(97,212,195,0.045);
+            border:1px solid rgba(97,212,195,0.14);
+          "
+        >
+
+          <div class="eyebrow mb-3">
+            ${escapeHTML(SVA_CASE.unresolvedQuestion.eyebrow)}
+          </div>
+
+          <div class="text-sm font-semibold leading-6">
+            ${escapeHTML(SVA_CASE.unresolvedQuestion.title)}
+          </div>
+
+          <p class="text-xs muted leading-6 mt-3">
+            ${escapeHTML(SVA_CASE.unresolvedQuestion.body)}
+          </p>
+
+        </div>
+
+      `;
+
+
+      if (r.miniChart && r.miniChart.enabled) {
+
+        const ctx = document
+          .getElementById("miniChart")
+          .getContext("2d");
+
+        new Chart(ctx, {
+
+          type: "line",
+
+          data: {
+
+            labels: r.miniChart.labels,
+
+            datasets: [{
+
+              data: r.miniChart.data,
+
+              borderColor: "#61d4c3",
+
+              backgroundColor: "rgba(97,212,195,0.07)",
+
+              borderWidth: 2,
+
+              pointRadius: 3,
+
+              tension: 0.25,
+
+              fill: true
+
+            }]
+
+          },
+
+          options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+
+            scales: {
+
+              x: {
+                display: false
+              },
+
+              y: {
+                display: false
+              }
+
+            }
+
+          }
+
+        });
+
+      }
+
+    }
+
+
+    /* =========================================================
+       BRIEFING / CTA
+       ========================================================= */
+
+    function renderBriefing() {
+
+      const b = SVA_CASE.briefing;
+
+      document.getElementById("briefingSection").innerHTML = `
+
+        <div
+          class="rounded-2xl p-8 md:p-10"
+          style="
+            background:
+              linear-gradient(
+                135deg,
+                rgba(20,42,61,0.92),
+                rgba(8,18,31,0.95)
+              );
+            border:1px solid rgba(97,212,195,0.15);
+          "
+        >
+
+          <div class="eyebrow mb-4">
+            ${escapeHTML(b.eyebrow)}
+          </div>
+
+          <h2
+            class="text-2xl md:text-3xl
+                   font-semibold tracking-tight"
+          >
+            ${escapeHTML(b.title)}
+          </h2>
+
+          <p
+            class="mt-4 text-sm md:text-[15px]
+                   leading-7 soft max-w-3xl"
+          >
+            ${escapeHTML(b.body)}
+          </p>
+
+
+          <!-- PRIMARY BRIEFING CTA -->
+
+          <div class="mt-7">
+
+            <a
+              href="${escapeHTML(b.ctaUrl)}"
+              class="cta-button"
+            >
+
+              ${escapeHTML(b.ctaLabel)}
+
+              <span aria-hidden="true">
+                →
+              </span>
+
+            </a>
+
+          </div>
+
+
+          <!-- ORIGINAL CONVERSATION CTA -->
+
+          <div class="mt-8 pt-7 border-t divider">
+
+            <div class="text-xs muted mb-3">
+              Prefer to discuss the assessment directly?
+            </div>
+
+            <a
+              href="mailto:${escapeHTML(b.conversationEmail)}?subject=SVA%20%E2%80%94%2020-minute%20conversation"
+              class="cta-button"
+            >
+
+              ${escapeHTML(b.conversationLabel)}
+
+              <span aria-hidden="true">
+                →
+              </span>
+
+            </a>
+
+            <div class="mt-3 text-xs muted">
+              ${escapeHTML(b.conversationEmail)}
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       META
+       ========================================================= */
+
+    function renderMeta() {
+
+      document.getElementById("metaLine").innerHTML = `
+
+        ${escapeHTML(SVA_CASE.company)}
+        <span class="mx-2 opacity-40">·</span>
+        ${escapeHTML(SVA_CASE.recipient)}
+        <span class="mx-2 opacity-40">·</span>
+        ${escapeHTML(SVA_CASE.date)}
+        <span class="mx-2 opacity-40">·</span>
+        ${escapeHTML(SVA_CASE.presentationId)}
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       INITIALIZE
+       ========================================================= */
+
+    function initializeExperience() {
+
+      renderMeta();
+
+      renderThesis();
+
+      renderHeroMetrics();
+
+      const narrative =
+        document.getElementById("narrative");
+
+      narrative.innerHTML = "";
+
+      SVA_CASE.narrative.forEach((block, index) => {
+
+        narrative.innerHTML +=
+          renderBlock(block, index);
+
+      });
+
+      renderRail();
+
+      renderBriefing();
+
+    }
+
+
+    /* =========================================================
+       ACCESS
+       ========================================================= */
+
+    function unlockExperience() {
+
+      const entered =
+        document.getElementById("accessKey").value;
+
+      const error =
+        document.getElementById("accessError");
+
+      if (entered === SVA_CASE.accessKey) {
+
+        document
+          .getElementById("accessOverlay")
+          .classList.add("hidden");
+
+        document
+          .getElementById("experience")
+          .classList.remove("hidden");
+
+        initializeExperience();
+
+      } else {
+
+        error.textContent =
+          "Access key not recognised.";
+
+      }
+
+    }
+
+
+    /* =========================================================
+       ENTER KEY SUPPORT
+       ========================================================= */
+
+    document
+      .getElementById("accessKey")
+      .addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+
+          unlockExperience();
+
+        }
+
+      });
+
+  </script>
+
+</body>
+</html>
